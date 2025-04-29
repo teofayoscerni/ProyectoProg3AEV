@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
         String password;
         String mail;
+        //Cargamos usuarios y productos desde la base de datos mediante los metedos de gestion de datos
         ArrayList<User> users = GestionDatos.getUsersDB();
         ArrayList<Product> products = GestionDatos.getProductsDB();
         int option = 0;
@@ -27,14 +28,17 @@ public class Main {
             switch (option) {
 
                 case 1:
+                    //Funcion para registrar un nuevo usuario
                     User.addUser(users, sc);
                     break;
                 case 2:
+                    //Funcion para entrar con un usuario ya existente
                     System.out.println("····LOGIN····");
                     System.out.println("Correo: ");
                     mail = sc.nextLine();
                     System.out.println("Contraseña: ");
                     password = sc.nextLine();
+                    //Se comprueba si el usuario existe
                     userExists = comproveUsers(users, products, mail, password);
                     break;
                 default:
@@ -44,8 +48,10 @@ public class Main {
 
 
     }
+    //Metodo para comprobar si el usuario existe y comprueba su rol para mostrar su respectivo menu
     public static boolean comproveUsers(ArrayList<User> users, ArrayList<Product> products, String mail, String password){
-            User actualUser = null;
+        //Buscamos en el array buscando coincidencias en el mail y contraseña pasados como parametro ayudandonos de una variable auxiliar
+        User actualUser = null;
             for (User u : users) {
                 if (u.getEmail().equals(mail) && u.getPassword().equals(password)) {
                     actualUser = u;
@@ -53,6 +59,7 @@ public class Main {
                 }
             }
 
+            //Si encuentra el usuario mostrara el menu correspondiente a su rol
             if (actualUser != null) {
 
                 System.out.println("bienvenido " + actualUser.getName() +
@@ -71,6 +78,7 @@ public class Main {
                 return false;
             }
     }
+    //Metodo que gestiona el menu de los empleados
     public static void menuEmployee(ArrayList<Product> products){
         int option;
 
@@ -137,7 +145,7 @@ public class Main {
             ===============================================================
         """);
     }
-
+    //Metodo que gestiona el menú de los gerentes
     public static void menuAdmin(ArrayList<Product> products, ArrayList<User> users){
         int option;
 
@@ -188,6 +196,5 @@ public class Main {
             }
         }while (option != 7);
     }
-
 
 }

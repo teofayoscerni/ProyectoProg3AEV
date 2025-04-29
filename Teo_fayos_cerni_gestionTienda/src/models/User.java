@@ -39,6 +39,8 @@ public static User found;
     }
     //Resto Metodos-Funciones(ejecutables por gerentes)
     public static void addUser(ArrayList<User> users, Scanner sc) {
+        //Metodo para añadir un usuario a la base de datos y al arraylist mediante
+        //la funcion de insertar usuarios(GestionDatos.insertDB) y el .add para el arraylist
         System.out.println("····Registrarse····");
         System.out.println("nombre: ");
         String name = sc.nextLine();
@@ -50,19 +52,25 @@ public static User found;
         String rol = sc.nextLine();
 
         User neew = new User(name,mail,password,rol);
-        GestionDatos.insertUserDB(neew);
-        users.add(neew);
+        GestionDatos.insertUserDB(neew);//Insertamos en base de datos
+        users.add(neew);//insertamos en el arraylist
     }
     public static void showUsers(ArrayList<User> users) {
+        //Metodo que muestra los usuarios
+        users = GestionDatos.getUsersDB();
+        //Cargamos el arraylist con los datos de la DB para
+        //mantener la fiabilidad de los datos
         if (users.isEmpty()){
             System.out.println("No hay usuarios");
         }else {
             for (User u : users){
                 System.out.println(u);
             }
+            //Metodo simple para mostrar los usuarios de la DB si hay
         }
     }
     public static User searchUser(ArrayList<User> users, String email){
+        //Metodo que busca un usuario en base a su email
         for (User u : users){
             if (u.getEmail().equalsIgnoreCase(email)){
                 return u;
@@ -71,6 +79,8 @@ public static User found;
         return null;
     }
     public static void deleteUser(ArrayList<User> users, Scanner sc) {
+        //Metodo que mediante el metodo de buscar un usuario, si lo encuentra se eliminara
+        //dicho usuario, tanto de el arrayList como de la DB.
         System.out.println("Email del usuario a eliminar: ");
         String mail = sc.nextLine();
 
@@ -79,6 +89,7 @@ public static User found;
         if (found != null){
             users.remove(found);
             GestionDatos.deleteUserDB(mail);
+            //Llamada al metodo de eliminar un suario de la BD
             System.out.println("El usuario se eliminó de manera exitosa");
         }else {
             System.out.println("Usuario no encontrado");
